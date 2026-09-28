@@ -1,0 +1,95 @@
+# Docker matches these against paths relative to the build-context root, so
+# anything that can occur inside a package directory needs a **/ prefix.
+
+# Version control
+.git
+**/.git
+.gitignore
+.gitattributes
+.github
+
+# Secrets and local configuration — never enter the build context
+**/.env
+**/.env.*
+!.env.example
+**/*.env
+**/.databrickscfg
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
+**/secrets/
+**/.mcp.json
+**/.mcp*.json
+
+# Python bytecode and caches
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+
+# Virtual environments
+**/.venv/
+**/venv/
+**/ENV/
+**/env/
+
+# Build and packaging artefacts
+**/build/
+**/dist/
+**/*.egg-info/
+**/*.egg
+**/wheels/
+**/*.whl
+
+# Test and lint caches
+**/.pytest_cache/
+**/.ruff_cache/
+**/.mypy_cache/
+**/.coverage
+**/.coverage.*
+**/htmlcov/
+**/.tox/
+**/.nox/
+**/.test-results/
+
+# Tests are not needed in the runtime image
+**/tests/
+**/pytest.ini
+**/.env.test
+**/.env.test.template
+
+# IDE and editor state
+**/.vscode/
+**/.idea/
+**/.claude/
+**/*.swp
+**/*.swo
+**/*~
+**/.DS_Store
+**/Thumbs.db
+
+# Docs and local notes not needed at build or run time
+**/docs/
+**/ARCHITECTURE.md
+**/TESTING.md
+**/*.svg
+
+# Host-side installer scripts, not container concerns
+**/setup.sh
+**/setup.ps1
+**/mcp_install.sh
+**/mcp_install.ps1
+
+# Docker files themselves
+Dockerfile
+Dockerfile.*
+.dockerignore
+docker-compose*.yml
+docker-compose*.yaml
+
+# Logs
+**/*.log
+**/logs/
+
+# Lockfiles tied to a local resolver
+**/uv.lock

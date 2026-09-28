@@ -1,0 +1,10 @@
+# Normalise to LF in the repository. The Docker build and any Linux clone need
+# LF line endings — CRLF breaks shell scripts and shebang lines.
+* text=auto eol=lf
+
+# Windows-only scripts keep CRLF.
+*.ps1 text eol=crlf
+
+*.png binary
+*.jpg binary
+*.svg text eol=lf
