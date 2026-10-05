@@ -36,5 +36,8 @@ dev = [
 where = ["."]
 include = ["databricks_mcp_server*"]
 
+[tool.setuptools.package-data]
+databricks_mcp_server = ["context/*.md"]
+
 [tool.uv.sources]
 databricks-tools-core = { path = "../databricks-tools-core" }

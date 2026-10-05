@@ -14,6 +14,7 @@ from contextlib import asynccontextmanager
 
 from fastmcp import FastMCP
 
+from .context import load_analysis_instructions
 from .middleware import TimeoutHandlingMiddleware
 
 
@@ -126,7 +127,14 @@ _fastmcp_kwargs = {}
 if sys.platform == "win32":
     _fastmcp_kwargs["tasks"] = False
 
-mcp = FastMCP("Databricks MCP Server", **_fastmcp_kwargs)
+# Analysis instructions are sent to the client as server instructions so they
+# land in Claude's system prompt; the full data context is served on demand by
+# the get_business_context tool (tools/context.py).
+mcp = FastMCP(
+    "Databricks MCP Server",
+    instructions=load_analysis_instructions(),
+    **_fastmcp_kwargs,
+)
 
 if sys.platform == "win32":
 
@@ -156,11 +164,13 @@ _patch_tool_decorator_for_async()
 #   sql           - execute queries, inspect table stats/schema, manage the warehouse
 #   unity_catalog - browse and manage catalogs, schemas, tables, tags, lineage, metric views
 #   user          - resolve the current Databricks identity
+#   context       - serve the Customer Tool business context and analysis instructions
 #
 # Deployment/serving surface (jobs, pipelines, apps, serving, genie, vector_search,
 # lakebase, agent_bricks, aibi_dashboards, compute, file, volume_files, workspace, pdf)
 # was removed: it is not needed for catalog analysis.
 from .tools import (  # noqa: F401, E402
+    context,
     sql,
     unity_catalog,
     user,
