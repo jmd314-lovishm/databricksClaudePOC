@@ -17,7 +17,7 @@ from ..server import mcp
 
 @mcp.tool(timeout=30)
 def get_business_context() -> str:
-    """Get the authoritative Customer Tool data context for dev_catalog.
+    """Get the authoritative Customer Tool data context for demo_catalog.
 
     This Databricks connection holds the company's revenue, sales and customer data:
     revenue by channel / PE fund / investment bank, new vs existing channels and clients,
@@ -25,7 +25,7 @@ def get_business_context() -> str:
     billing in GBP, customers, clusters, projects, solutions/service lines, spend bands
     and cohorts.
 
-    Call this BEFORE answering any business question or querying dev_catalog.
+    Call this BEFORE answering any business question or querying demo_catalog.
     Returns the required answer format, then markdown covering table paths, grain,
     join keys, column meanings, revenue/bucket business rules, known ambiguities
     and glossary."""
@@ -49,7 +49,7 @@ _FORMAT_REMINDER = (
 @mcp.resource(
     "context://customer-tool/data-context",
     name="Customer Tool data context",
-    description="Authoritative business context for dev_catalog Customer Tool tables.",
+    description="Authoritative business context for demo_catalog Customer Tool tables.",
     mime_type="text/markdown",
 )
 def data_context_resource() -> str:
@@ -68,7 +68,7 @@ def analysis_instructions_resource() -> str:
 
 @mcp.prompt(name="customer_tool_analysis")
 def customer_tool_analysis(question: str) -> str:
-    """Answer a business question using dev_catalog with the full instructions and data context."""
+    """Answer a business question using demo_catalog with the full instructions and data context."""
     return (
         f"{load_analysis_instructions()}\n\n---\n\n{load_data_context()}\n\n---\n\n"
         f"Business question: {question}"
